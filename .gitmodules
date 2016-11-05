@@ -1,0 +1,8 @@
+[submodule "src"]
+	path = src
+	url = https://github.com/Eli112358/Kerbal-Data-Manipulator.git
+	branch = API-src
+[submodule "out"]
+	path = out
+	url = https://github.com/Eli112358/Kerbal-Data-Manipulator.git
+	branch = API-out

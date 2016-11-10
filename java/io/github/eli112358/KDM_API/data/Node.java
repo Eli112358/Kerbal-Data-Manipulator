@@ -62,6 +62,18 @@ public class Node {
 		for(int x=0; x<nodes.size(); x++) if(matches(name, filter)) return true;
 		return false;
 	}
+	public void removeField(int index) {
+		fields.remove(index);
+	}
+	public void removeField(String name) {
+		for(int x=0; x<fields.size(); x++) if(getField(x).getName().equals(name)) removeField(x);
+	}
+	public void removeNode(int index) {
+		nodes.remove(index);
+	}
+	public void removeNode(String name, NodeFilter filter) {
+		for(int x=0; x<nodes.size(); x++) if(matches(name, filter)) removeNode(x);
+	}
 	private boolean matches(String name, NodeFilter filter) {
 		boolean isLabelEqual=getLabel().equals(name);
 		boolean isNameEqual=getField("name").getValue().equals(name);

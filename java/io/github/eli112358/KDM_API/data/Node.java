@@ -57,8 +57,8 @@ public class Node {
 		for(int x=0; x<fields.size(); x++) if(getField(x).getName().equals(name)) return true;
 		return false;
 	}
-	public boolean hasNode(String name, NodeFilter filter) {
-		if(filter==null) filter=NodeFilter.either;
+	public boolean hasNode(String name, Filter filter) {
+		if(filter==null) filter=Filter.either;
 		for(int x=0; x<nodes.size(); x++) if(matches(name, filter)) return true;
 		return false;
 	}
@@ -71,22 +71,22 @@ public class Node {
 	public void removeNode(int index) {
 		nodes.remove(index);
 	}
-	public void removeNode(String name, NodeFilter filter) {
+	public void removeNode(String name, Filter filter) {
 		for(int x=0; x<nodes.size(); x++) if(matches(name, filter)) removeNode(x);
 	}
-	private boolean matches(String name, NodeFilter filter) {
+	private boolean matches(String name, Filter filter) {
 		boolean isLabelEqual=getLabel().equals(name);
 		boolean isNameEqual=getField("name").getValue().equals(name);
-		boolean isEither=filter.equals(NodeFilter.either);
-		boolean isLabelOnly=filter.equals(NodeFilter.labelOnly);
-		boolean isNameOnly=filter.equals(NodeFilter.nameOnly);
+		boolean isEither=filter.equals(Filter.either);
+		boolean isLabelOnly=filter.equals(Filter.labelOnly);
+		boolean isNameOnly=filter.equals(Filter.nameOnly);
 		return isEither?isLabelEqual||isNameEqual:isLabelOnly?isLabelEqual:isNameOnly&&isNameEqual;
 	}
-	private enum NodeFilter {
+	private enum Filter {
 		either,
 		labelOnly,
 		nameOnly;
-		private boolean equals(NodeFilter filter) {
+		private boolean equals(Filter filter) {
 			return this==filter;
 		}
 	}

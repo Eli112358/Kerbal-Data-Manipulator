@@ -20,6 +20,10 @@ public class Node {
 	public void addField(String name, String value) {
 		addField(new Field(name, value));
 	}
+	public void addField(String line) {
+		String[] parts=line.split(" = ");
+		addField(parts[0], parts[1]);
+	}
 	public void addNode(Node node) {
 		nodes.add(node);
 	}

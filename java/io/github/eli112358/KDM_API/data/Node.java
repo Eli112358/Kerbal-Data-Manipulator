@@ -86,7 +86,7 @@ public class Node {
 		boolean isNameOnly=filter.equals(Filter.nameOnly);
 		return isEither?isLabelEqual||isNameEqual:isLabelOnly?isLabelEqual:isNameOnly&&isNameEqual;
 	}
-	private enum Filter {
+	public enum Filter {
 		either,
 		labelOnly,
 		nameOnly;

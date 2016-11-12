@@ -2,3 +2,7 @@
 	path = src
 	url = https://github.com/Eli112358/Kerbal-Data-Manipulator.git
 	branch = API-src
+[submodule "out\\artifacts"]
+	path = out\\artifacts
+	url = https://github.com/Eli112358/Kerbal-Data-Manipulator.git
+	branch = API-jar

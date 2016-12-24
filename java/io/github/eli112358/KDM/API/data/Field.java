@@ -1,4 +1,4 @@
-package io.github.eli112358.KDM_API.data;
+package io.github.eli112358.KDM.API.data;
 
 /**
  * Created by Eli112358 on 11/6/16.

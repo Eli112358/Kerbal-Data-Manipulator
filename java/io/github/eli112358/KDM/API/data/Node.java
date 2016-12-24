@@ -1,6 +1,7 @@
 package io.github.eli112358.KDM.API.data;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 /**
  * Created by Eli112358 on 11/6/16.
  */
@@ -81,6 +82,12 @@ public class Node {
 		ArrayList<Node> removed=new ArrayList<>();
 		for(int x=0; x<nodes.size(); x++) if(matches(name, filter)) removed.add(removeNode(x));
 		return removed;
+	}
+	public Iterator<Field> getFieldsIterator() {
+		return fields.iterator();
+	}
+	public Iterator<Node> getNodesIterator() {
+		return nodes.iterator();
 	}
 	private boolean matches(String name, Filter filter) {
 		boolean isLabelEqual=getLabel().equals(name);

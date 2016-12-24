@@ -5,7 +5,8 @@ import java.util.ArrayList;
  * Created by Eli112358 on 11/6/16.
  */
 public class Node {
-	private String label;
+	private static final String name="name";
+	public final String label;
 	private ArrayList<Node> nodes=new ArrayList<>();
 	private ArrayList<Field> fields=new ArrayList<>();
 	public Node(String label) {
@@ -21,8 +22,7 @@ public class Node {
 		addField(new Field(name, value));
 	}
 	public void addField(String line) {
-		String[] parts=line.split(" = ");
-		addField(parts[0], parts[1]);
+		addField(Field.parse(line));
 	}
 	public void addNode(Node node) {
 		nodes.add(node);
@@ -31,7 +31,7 @@ public class Node {
 		addNode(new Node(label));
 	}
 	public String getDisplayName() {
-		return hasField("name")?getField("name").getValue():getLabel();
+		return hasField(name)?getField(name).getValue():getLabel();
 	}
 	public Field getField(int index) {
 		return fields.get(index);
@@ -84,7 +84,7 @@ public class Node {
 	}
 	private boolean matches(String name, Filter filter) {
 		boolean isLabelEqual=getLabel().equals(name);
-		boolean isNameEqual=getField("name").getValue().equals(name);
+		boolean isNameEqual=getField(Node.name).getValue().equals(name);
 		boolean isEither=filter.equals(Filter.either);
 		boolean isLabelOnly=filter.equals(Filter.labelOnly);
 		boolean isNameOnly=filter.equals(Filter.nameOnly);

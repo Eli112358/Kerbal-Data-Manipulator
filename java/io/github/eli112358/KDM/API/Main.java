@@ -4,14 +4,19 @@ import io.github.eli112358.KDM.API.data.Field;
 import io.github.eli112358.KDM.API.data.Node;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 /**
  * Created by Eli112358 on 11/6/16.
  */
 public class Main {
-	public static void save(Data data) {
+	public static void save(Data data, boolean isClipboard) {
 		try {
-			new Saver(data).start();
+			new Saver(data, isClipboard).start();
 		} catch(IOException e) {
 			System.out.println(e.getMessage());
 		}
@@ -48,24 +53,40 @@ public class Main {
 		return data;
 	}
 	private static class Saver {
+		private static String pattern="yyyyMMdd-HHmmss";
+		private static SimpleDateFormat format=new SimpleDateFormat(pattern);
 		private final Data data;
+		private final boolean isClipboard;
 		private BufferedWriter bw;
 		private int indentation=0;
-		private Saver(Data data) {
+		private Saver(Data data, boolean isClipboard) {
 			this.data=data;
+			this.isClipboard=isClipboard;
 		}
-		public void start() throws IOException {
-			bw=new BufferedWriter(new FileWriter(data.getFile()));
+		void start() throws IOException {
+			String now=format.format(new Date());
+			File output=data.getFile();
+			Path source=Paths.get(output.toURI());
+			Path newName=source.resolveSibling(output.getName()+"-"+getType()+now);
+			if(isClipboard) output=newName.toFile();
+			else Files.move(source, newName);
+			bw=new BufferedWriter(new FileWriter(output));
 			saveNode(data.getNode(0));
+		}
+		private String getType() {
+			return isClipboard?"clipboard":"backup";
 		}
 		private void saveNode(Node node) {
 			printToFile(node.label);
 			printToFile("{");
 			indentation++;
+			node.getFieldsIterator().forEachRemaining(this::saveField);
 			node.getNodesIterator().forEachRemaining(this::saveNode);
-			node.getFieldsIterator().forEachRemaining(field->printToFile(field.toString()));
 			indentation--;
 			printToFile("}");
+		}
+		private void saveField(Field field) {
+			printToFile(field.toString());
 		}
 		private void printToFile(String text) {
 			try {
